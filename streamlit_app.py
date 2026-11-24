@@ -32,20 +32,20 @@ if msg:
             timeout=30
         )
 
-        risposta = r.json().get(
-            "response",
-            "Nessuna risposta"
-        )
+        risposta = r.json().get("response")
 
-    except Exception as e:
-
-        risposta = f"Errore: {e}"
-
+if risposta:
     st.session_state.messages.append(
         {
             "role": "assistant",
             "content": risposta
         }
     )
+
+    except Exception as e:
+
+        risposta = f"Errore: {e}"
+
+    
 
     st.rerun()
