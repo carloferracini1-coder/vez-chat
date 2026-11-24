@@ -4,12 +4,25 @@ import requests
 st.set_page_config(page_title="VEZ", page_icon="🤖")
 
 st.title("🤖 VEZ")
+st.write("Assistente per la gestione delle schede rete")
+
+if "messages" not in st.session_state:
+    st.session_state.messages = []
+
+for message in st.session_state.messages:
+    with st.chat_message(message["role"]):
+        st.write(message["content"])
 
 msg = st.chat_input("Scrivi un comando...")
 
 if msg:
 
-    st.chat_message("user").write(msg)
+    st.session_state.messages.append(
+        {
+            "role": "user",
+            "content": msg
+        }
+    )
 
     try:
 
@@ -19,14 +32,20 @@ if msg:
             timeout=30
         )
 
-        risposta = r.json()
-
-        st.chat_message("assistant").write(
-            risposta.get("response", "Nessuna risposta")
+        risposta = r.json().get(
+            "response",
+            "Nessuna risposta"
         )
 
     except Exception as e:
 
-        st.chat_message("assistant").write(
-            f"Errore: {e}"
-        )
+        risposta = f"Errore: {e}"
+
+    st.session_state.messages.append(
+        {
+            "role": "assistant",
+            "content": risposta
+        }
+    )
+
+    st.rerun()
