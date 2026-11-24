@@ -34,6 +34,9 @@ if msg:
 
         risposta = r.json().get("response")
 
+except Exception as e:
+    risposta = f"Errore: {e}"
+
 if risposta:
     st.session_state.messages.append(
         {
@@ -42,9 +45,7 @@ if risposta:
         }
     )
 
-    except Exception as e:
-
-        risposta = f"Errore: {e}"
+   
 
     
 
