@@ -34,19 +34,17 @@ if msg:
 
         risposta = r.json().get("response")
 
-except Exception as e:
-    risposta = f"Errore: {e}"
+    except Exception as e:
 
-if risposta:
-    st.session_state.messages.append(
-        {
-            "role": "assistant",
-            "content": risposta
-        }
-    )
+        risposta = f"Errore: {e}"
 
-   
+    if risposta:
 
-    
+        st.session_state.messages.append(
+            {
+                "role": "assistant",
+                "content": risposta
+            }
+        )
 
     st.rerun()
